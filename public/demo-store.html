@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bloom &amp; Co. — Custom Mother's Rings</title>
+    <style>
+      :root { --rose: #b85c72; --ink: #2a2124; --paper: #fbf6f3; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: var(--ink); background: var(--paper); }
+      header { display: flex; align-items: center; justify-content: space-between; padding: 18px 16px; max-width: 1280px; margin: 0 auto; }
+      .logo { font-size: 26px; letter-spacing: .04em; }
+      nav { display: none; gap: 24px; font-family: system-ui, sans-serif; font-size: 14px; }
+      @media (min-width: 760px) { nav { display: flex; } header { padding: 18px 32px; } }
+      .cart { font-family: system-ui, sans-serif; font-size: 14px; background: var(--rose); color: #fff; border-radius: 999px; padding: 8px 16px; }
+      .hero { text-align: center; padding: 24px 16px 18px; }
+      .hero h1 { font-weight: 400; font-size: clamp(28px, 5vw, 44px); margin: 0 0 8px; }
+      .hero p { font-family: system-ui, sans-serif; color: #7a6a6f; margin: 0; }
+      .widget { max-width: 1280px; margin: 0 auto; padding: 0 16px 40px; }
+      .widget > div { height: 820px; border-radius: 16px; box-shadow: 0 20px 60px -30px rgba(80, 30, 40, .45); }
+      .note { font-family: system-ui, sans-serif; font-size: 12px; color: #9a8a8f; text-align: center; padding-bottom: 32px; }
+      #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120px); transition: transform .4s; background: var(--ink); color: #fff; font-family: system-ui, sans-serif; font-size: 14px; padding: 12px 18px; border-radius: 10px; max-width: calc(100% - 32px); }
+      #toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">Bloom &amp; Co.</div>
+      <nav><span>Rings</span><span>Necklaces</span><span>Gifts</span><span>Our story</span></nav>
+      <div class="cart">Bag (<span id="count">0</span>)</div>
+    </header>
+    <section class="hero">
+      <h1>Design your mother's ring</h1>
+      <p>One BirthDiamond for every child. Rotate it, try every metal, see it before it's made.</p>
+    </section>
+
+    <!-- ↓↓↓ This is all a retailer adds to their site ↓↓↓ -->
+    <section class="widget">
+      <div data-birthdiamond data-retailer="bloom"></div>
+    </section>
+    <script src="/embed.js" async></script>
+    <!-- ↑↑↑ -->
+
+    <p class="note">This page simulates a third-party retailer website embedding the BirthDiamond configurator.</p>
+    <div id="toast"></div>
+
+    <script>
+      var count = 0;
+      window.addEventListener("birthdiamond:add-to-cart", function (e) {
+        var line = e.detail.line;
+        count += 1;
+        document.getElementById("count").textContent = count;
+        var t = document.getElementById("toast");
+        t.textContent = "Added to Bloom & Co. cart: " + line.title + " — " + line.quote.currency + " " + line.quote.retail;
+        t.classList.add("show");
+        setTimeout(function () { t.classList.remove("show"); }, 3500);
+        console.log("Cart line from configurator", line);
+      });
+    </script>
+  </body>
+</html>
